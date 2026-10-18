@@ -12,6 +12,22 @@
     <a class="pill" href="index.html">← Rate jokes</a>
   </header>
   <main>
+    <p id="me" class="summary"></p>
+    <div class="boards">
+      <section>
+        <h2>🔥 Top raters</h2>
+        <table><tbody id="raters"><tr><td>Loading…</td></tr></tbody></table>
+        <p class="hint note">Most jokes rated. Skips don't count.</p>
+      </section>
+      <section id="comedians">
+        <h2>🎤 Top comedians</h2>
+        <table><tbody id="comics"><tr><td>Loading…</td></tr></tbody></table>
+        <p class="hint note">Average rating of your submitted jokes. You need at least 2 rated jokes to appear.
+          With few ratings the average is gently pulled toward the overall average, so one lucky rating can't win.</p>
+      </section>
+    </div>
+
+    <h2 class="jokes-title">All jokes</h2>
     <div class="stats-bar">
       <p id="summary" class="summary">Loading…</p>
       <button id="csv" class="pill" hidden>⬇ Download CSV</button>
@@ -28,6 +44,51 @@
   <script src="config.js"></script>
   <script src="api.js"></script>
   <script>
+    // Leaderboards
+    (async function () {
+      if (!JokesApi.configured) return;
+      JokesApi.progress()
+        .then((p) => { if (p) document.getElementById("me").textContent = `You appear as ${p.name}. (Change it on the rating page with ✏️.)`; })
+        .catch(() => {});
+      let rows;
+      try { rows = await JokesApi.leaderboards(); }
+      catch (e) {
+        for (const id of ["raters", "comics"]) document.getElementById(id).innerHTML = "<tr><td>Could not load.</td></tr>";
+        return;
+      }
+      const medal = (rk) => ["🥇", "🥈", "🥉"][rk - 1] || rk + ".";
+      function fill(id, board, cells, empty) {
+        const tbody = document.getElementById(id);
+        tbody.innerHTML = "";
+        const list = rows.filter((r) => r.board === board);
+        if (!list.length) { tbody.innerHTML = `<tr><td>${empty}</td></tr>`; return; }
+        let prev = 0;
+        for (const r of list) {
+          const rk = Number(r.rank);
+          if (rk > prev + 1 && rk > 10) {
+            const gap = document.createElement("tr");
+            gap.className = "gap";
+            gap.innerHTML = '<td colspan="3">…</td>';
+            tbody.appendChild(gap);
+          }
+          prev = rk;
+          const tr = document.createElement("tr");
+          if (r.is_me) tr.className = "me";
+          [medal(rk), r.name + (r.is_me ? " (you)" : ""), cells(r)].forEach((v, i) => {
+            const td = document.createElement("td");
+            if (i !== 1) td.className = "num";
+            td.textContent = v;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        }
+      }
+      fill("raters", "raters", (r) => r.n_ratings + " rated", "No ratings yet.");
+      fill("comics", "comedians",
+        (r) => `${Number(r.avg_score).toFixed(2)} · ${r.n_jokes} jokes`,
+        "No one yet: needs 2 rated jokes.");
+    })();
+
     (async function () {
       const summary = document.getElementById("summary");
       if (!JokesApi.configured) { summary.textContent = "Not connected: fill in docs/config.js."; return; }

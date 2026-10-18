@@ -11,7 +11,7 @@
     <h1>Rate the Joke</h1>
     <div class="top-right">
       <div class="counter" title="Jokes you have rated">
-        <span id="count">0</span> rated
+        <span id="fire" class="fire lvl-0">🔥</span><span id="count">0</span> rated
       </div>
       <a class="pill" href="stats.html">📊 Stats</a>
     </div>
@@ -22,35 +22,78 @@
       The app is not connected yet: fill in <code>docs/config.js</code>.
     </div>
 
-    <section id="card" class="card" aria-live="polite">
-      <p id="joke" class="joke">Loading…</p>
-      <div id="reveal" class="reveal" hidden></div>
+    <div class="level">
+      <div class="level-row">
+        <span class="who">
+          <strong id="level-name">Giggle Rookie</strong>
+          <button id="me-name" class="name-btn" title="Change your nickname" hidden></button>
+          <form id="name-form" class="name-form" hidden>
+            <input id="name-input" maxlength="24" placeholder="Nickname (empty = random)" aria-label="Nickname">
+            <button type="submit" class="primary small">Save</button>
+            <button type="button" id="name-cancel" class="link">Cancel</button>
+          </form>
+        </span>
+        <span id="level-next" class="hint"></span>
+      </div>
+      <div class="level-bar"><div id="level-fill"></div></div>
+    </div>
+
+    <nav class="tabs" role="tablist">
+      <button id="tab-rate" class="tab active" role="tab" aria-selected="true">Rate</button>
+      <button id="tab-mine" class="tab" role="tab" aria-selected="false">My jokes</button>
+    </nav>
+
+    <div id="welcome" class="ping" hidden>
+      <span>👋 You'll appear on the leaderboard as <strong id="welcome-name"></strong>.</span>
+      <button id="welcome-pick" class="link">Pick a nickname</button>
+      <button id="welcome-keep" class="link">Keep it</button>
+    </div>
+
+    <div id="ping" class="ping" hidden>
+      <span id="ping-text"></span>
+      <button id="ping-view" class="link">View</button>
+      <button id="ping-mute" class="link" title="Stop these notices">🔕 Mute</button>
+    </div>
+
+    <section id="view-rate">
+      <section id="card" class="card" aria-live="polite">
+        <p id="joke" class="joke">Loading…</p>
+        <div id="reveal" class="reveal" hidden></div>
+      </section>
+
+      <p class="question">How funny is it?</p>
+      <div id="scale" class="scale" role="group" aria-label="Funniness from 1 to 5">
+        <button data-score="1" title="WTF? Not even a joke (1)"><span>🤨</span><small>WTF?</small></button>
+        <button data-score="2" title="Meh (2)"><span>😐</span><small>Meh</small></button>
+        <button data-score="3" title="Made me smile (3)"><span>😄</span><small>Smile</small></button>
+        <button data-score="4" title="Funny (4)"><span>😆</span><small>Funny</small></button>
+        <button data-score="5" title="Hilarious (5)"><span>🤣</span><small>Hilarious</small></button>
+      </div>
+      <div class="actions">
+        <button id="skip" class="link">Skip</button>
+        <span class="hint">Keys: 1–5, S to skip</span>
+      </div>
+
+      <details id="add" class="add">
+        <summary>➕ Add your own joke</summary>
+        <form id="add-form">
+          <textarea id="add-text" maxlength="500" rows="4" required
+            placeholder="Your joke (up to 500 characters)"></textarea>
+          <div class="add-row">
+            <span id="add-len" class="hint">0 / 500</span>
+            <button type="submit" class="primary">Submit</button>
+          </div>
+        </form>
+      </details>
     </section>
 
-    <p class="question">How funny is it?</p>
-    <div id="scale" class="scale" role="group" aria-label="Funniness from 1 to 5">
-      <button data-score="1" title="WTF? Not even a joke (1)"><span>🤨</span><small>WTF?</small></button>
-      <button data-score="2" title="Meh (2)"><span>😐</span><small>Meh</small></button>
-      <button data-score="3" title="Made me smile (3)"><span>😄</span><small>Smile</small></button>
-      <button data-score="4" title="Funny (4)"><span>😆</span><small>Funny</small></button>
-      <button data-score="5" title="Hilarious (5)"><span>🤣</span><small>Hilarious</small></button>
-    </div>
-    <div class="actions">
-      <button id="skip" class="link">Skip</button>
-      <span class="hint">Keys: 1–5, S to skip</span>
-    </div>
-
-    <details id="add" class="add">
-      <summary>➕ Add your own joke</summary>
-      <form id="add-form">
-        <textarea id="add-text" maxlength="500" rows="4" required
-          placeholder="Your joke (up to 500 characters)"></textarea>
-        <div class="add-row">
-          <span id="add-len" class="hint">0 / 500</span>
-          <button type="submit" class="primary">Submit</button>
-        </div>
-      </form>
-    </details>
+    <section id="view-mine" hidden>
+      <p id="mine-summary" class="summary">Loading…</p>
+      <ul id="mine-list" class="mine"></ul>
+      <p class="hint">You never get your own jokes to rate. With at least 2 rated jokes you join the
+        <a href="stats.html#comedians">Top comedians</a> board.</p>
+      <label class="hint mute-toggle"><input type="checkbox" id="mute-box"> Mute notices about new ratings</label>
+    </section>
   </main>
 
   <footer><a class="gh" href="https://github.com/ampapacek/joke-generation" target="_blank" rel="noopener">GitHub repo</a></footer>

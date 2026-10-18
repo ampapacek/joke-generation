@@ -40,5 +40,9 @@
       (await rpc("rate_joke", { p_annotator: annotatorId(), p_joke: jokeId, p_score: score }))[0],
     submit: (text) => rpc("submit_joke", { p_annotator: annotatorId(), p_text: text }),
     stats: () => rpc("joke_stats"),
+    progress: async () => (await rpc("my_progress", { p_annotator: annotatorId() }))[0],
+    setNickname: (name) => rpc("set_nickname", { p_annotator: annotatorId(), p_name: name }),
+    myJokes: () => rpc("my_jokes", { p_annotator: annotatorId() }),
+    leaderboards: () => rpc("leaderboards", { p_annotator: annotatorId() }),
   };
 })();

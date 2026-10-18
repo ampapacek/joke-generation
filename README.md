@@ -47,7 +47,8 @@ A small web page where anyone can rate jokes on a 1-5 "how funny" scale and add 
 - Each annotator gets an anonymous random ID kept in their browser.
 - The next joke is one the annotator has not seen yet, never their own submission. Jokes with fewer than 3 ratings come first; after that, better-rated jokes are shown more often (weight = average score squared, with a 20% uniform pick for exploration). See `next_joke` in `db/schema.sql`.
 - Skips are stored as ratings with an empty score.
-- Annotators never see a joke's source (human/model). `docs/stats.html` lists jokes least-rated first.
+- Annotators never see a joke's source (human/model). `docs/stats.html` lists jokes best-rated first.
+- Light gamification: levels (with a growing 🔥) by number of jokes rated, a "My jokes" tab, and two leaderboards on the stats page (top raters; top comedians, who need at least 2 rated jokes and are ranked by average smoothed with 3 pseudo-ratings at the global mean). People appear under an optional self-chosen nickname (table `nicknames`; delete a row to remove a rude one) or else a name derived from their ID; IDs are never sent to other browsers. Rewarding volume can make some people rate carelessly, so keep this in mind when analysing results.
 
 Setup:
 
