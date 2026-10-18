@@ -9,7 +9,7 @@
 <body>
   <header class="top">
     <h1>Joke Stats</h1>
-    <a href="index.html">← Rate jokes</a>
+    <a class="pill" href="index.html">← Rate jokes</a>
   </header>
   <main>
     <p id="summary" class="summary">Loading…</p>
@@ -20,7 +20,7 @@
       <tbody id="rows"></tbody>
     </table>
   </main>
-  <footer>Least-rated jokes first.</footer>
+  <footer>Best-rated first; jokes without ratings at the bottom. · <a class="gh" href="https://github.com/ampapacek/joke-generation" target="_blank" rel="noopener">GitHub repo</a></footer>
 
   <script src="config.js"></script>
   <script src="api.js"></script>
@@ -33,6 +33,9 @@
       catch (e) { summary.textContent = "Could not load stats: " + e.message; return; }
       const total = rows.reduce((s, r) => s + Number(r.n_ratings), 0);
       summary.textContent = `${rows.length} jokes, ${total} ratings in total.`;
+      rows.sort((a, b) =>
+        (b.avg_score == null ? -1 : Number(b.avg_score)) - (a.avg_score == null ? -1 : Number(a.avg_score))
+        || Number(b.n_ratings) - Number(a.n_ratings));
       const tbody = document.getElementById("rows");
       for (const r of rows) {
         const tr = document.createElement("tr");

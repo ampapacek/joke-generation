@@ -9,8 +9,11 @@
 <body>
   <header class="top">
     <h1>Rate the Joke</h1>
-    <div class="counter" title="Jokes you have rated">
-      <span id="count">0</span> rated
+    <div class="top-right">
+      <div class="counter" title="Jokes you have rated">
+        <span id="count">0</span> rated
+      </div>
+      <a class="pill" href="stats.html">📊 Stats</a>
     </div>
   </header>
 
@@ -50,10 +53,7 @@
     </details>
   </main>
 
-  <footer>
-    Anonymous: we store only your ratings and a random ID kept in this browser.
-    · <a href="stats.html">Stats</a>
-  </footer>
+  <footer><a class="gh" href="https://github.com/ampapacek/joke-generation" target="_blank" rel="noopener">GitHub repo</a></footer>
 
   <div id="toast" class="toast" hidden></div>
 
