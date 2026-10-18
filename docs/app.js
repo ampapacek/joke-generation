@@ -134,6 +134,7 @@
   function closeWelcome() { save("name_prompted", "1"); $("welcome").hidden = true; }
   $("welcome-pick").addEventListener("click", () => { closeWelcome(); editName(true); });
   $("welcome-keep").addEventListener("click", closeWelcome);
+  $("welcome-close").addEventListener("click", closeWelcome);
 
   function showPing(n, avg) {
     $("ping-text").textContent = `🔔 ${n} new ratings on your jokes` +
@@ -151,6 +152,7 @@
 
   $("ping-view").addEventListener("click", () => { $("ping").hidden = true; showTab("mine"); });
   $("ping-mute").addEventListener("click", () => { setMuted(true); toast("Muted. You can unmute in My jokes."); });
+  $("ping-close").addEventListener("click", () => ($("ping").hidden = true));
   $("mute-box").addEventListener("change", (e) => setMuted(e.target.checked));
   $("mute-box").checked = muted();
 

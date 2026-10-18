@@ -25,7 +25,7 @@
     <div class="level">
       <div class="level-row">
         <span class="who">
-          <strong id="level-name">Giggle Rookie</strong>
+          <span class="hint">Level:</span> <strong id="level-name">Giggle Rookie</strong>
           <button id="me-name" class="name-btn" title="Change your nickname" hidden></button>
           <form id="name-form" class="name-form" hidden>
             <input id="name-input" maxlength="24" placeholder="Nickname (empty = random)" aria-label="Nickname">
@@ -47,12 +47,14 @@
       <span>👋 You'll appear on the leaderboard as <strong id="welcome-name"></strong>.</span>
       <button id="welcome-pick" class="link">Pick a nickname</button>
       <button id="welcome-keep" class="link">Keep it</button>
+      <button id="welcome-close" class="close" title="Close" aria-label="Close">×</button>
     </div>
 
     <div id="ping" class="ping" hidden>
       <span id="ping-text"></span>
       <button id="ping-view" class="link">View</button>
       <button id="ping-mute" class="link" title="Stop these notices">🔕 Mute</button>
+      <button id="ping-close" class="close" title="Close" aria-label="Close">×</button>
     </div>
 
     <section id="view-rate">
