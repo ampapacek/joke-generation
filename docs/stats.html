@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joke Stats</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Joke Stats</h1>
+    <a href="index.html">← Rate jokes</a>
+  </header>
+  <main>
+    <p id="summary" class="summary">Loading…</p>
+    <table>
+      <thead>
+        <tr><th>Joke</th><th class="num">Ratings</th><th class="num">Skips</th><th class="num">Avg</th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </main>
+  <footer>Least-rated jokes first.</footer>
+
+  <script src="config.js"></script>
+  <script src="api.js"></script>
+  <script>
+    (async function () {
+      const summary = document.getElementById("summary");
+      if (!JokesApi.configured) { summary.textContent = "Not connected: fill in docs/config.js."; return; }
+      let rows;
+      try { rows = await JokesApi.stats(); }
+      catch (e) { summary.textContent = "Could not load stats: " + e.message; return; }
+      const total = rows.reduce((s, r) => s + Number(r.n_ratings), 0);
+      summary.textContent = `${rows.length} jokes, ${total} ratings in total.`;
+      const tbody = document.getElementById("rows");
+      for (const r of rows) {
+        const tr = document.createElement("tr");
+        const cells = [r.text, r.n_ratings, r.n_skips, r.avg_score == null ? "–" : Number(r.avg_score).toFixed(2)];
+        cells.forEach((v, i) => {
+          const td = document.createElement("td");
+          if (i > 0) td.className = "num";
+          td.textContent = v;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      }
+    })();
+  </script>
+</body>
+</html>
