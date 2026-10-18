@@ -80,3 +80,24 @@ where not exists (select 1 from jokes where lower(text) = lower('While digging i
 insert into jokes (text, source, model, prompt_version, language)
 select 'Today at the bank, an old lady asked me to help check her balance. So I pushed her over.', 'curated', null, null, 'en'
 where not exists (select 1 from jokes where lower(text) = lower('Today at the bank, an old lady asked me to help check her balance. So I pushed her over.'));
+insert into jokes (text, source, model, prompt_version, language)
+select 'A man walks into an enchanted forest and tries to cut down a talking tree. “You can''t cut me down,” the tree exclaims. “I''m a talking tree!” The man responds, “You may be a talking tree, but you will dialogue.”', 'curated', null, null, 'en'
+where not exists (select 1 from jokes where lower(text) = lower('A man walks into an enchanted forest and tries to cut down a talking tree. “You can''t cut me down,” the tree exclaims. “I''m a talking tree!” The man responds, “You may be a talking tree, but you will dialogue.”'));
+insert into jokes (text, source, model, prompt_version, language)
+select 'Today, I asked my phone, “Siri, why am I still single?” It activated the front-facing camera.', 'curated', null, null, 'en'
+where not exists (select 1 from jokes where lower(text) = lower('Today, I asked my phone, “Siri, why am I still single?” It activated the front-facing camera.'));
+insert into jokes (text, source, model, prompt_version, language)
+select 'Even people who are good for nothing have the capacity to bring a smile to your face. Like when you push them down the stairs.', 'curated', null, null, 'en'
+where not exists (select 1 from jokes where lower(text) = lower('Even people who are good for nothing have the capacity to bring a smile to your face. Like when you push them down the stairs.'));
+insert into jokes (text, source, model, prompt_version, language)
+select 'Knock, knock. Who''s there? Dishes. Dishes who? Dishes a really bad joke.', 'curated', null, null, 'en'
+where not exists (select 1 from jokes where lower(text) = lower('Knock, knock. Who''s there? Dishes. Dishes who? Dishes a really bad joke.'));
+insert into jokes (text, source, model, prompt_version, language)
+select 'A dyslexic atheist lies awake at night wondering if there really is a dog.', 'curated', null, null, 'en'
+where not exists (select 1 from jokes where lower(text) = lower('A dyslexic atheist lies awake at night wondering if there really is a dog.'));
+insert into jokes (text, source, model, prompt_version, language)
+select 'My colorblind diagnosis really came out of the orange.', 'curated', null, null, 'en'
+where not exists (select 1 from jokes where lower(text) = lower('My colorblind diagnosis really came out of the orange.'));
+insert into jokes (text, source, model, prompt_version, language)
+select 'First, the doctor told me the good news. He said that I was going to have a disease named after me.', 'curated', null, null, 'en'
+where not exists (select 1 from jokes where lower(text) = lower('First, the doctor told me the good news. He said that I was going to have a disease named after me.'));
