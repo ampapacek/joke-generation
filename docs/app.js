@@ -11,6 +11,7 @@
   ];
   const PING_EVERY = 3; // notify once your jokes got this many new ratings
   const REVEAL_MS = 1600;
+  const NUDGE_FIRST = 5, NUDGE_EVERY = 20; // "add your own joke" after 5, 25, 45, ... ratings
 
   let current = null;
   let busy = false;
@@ -49,6 +50,7 @@
 
   function bumpCount() {
     setCount(count + 1, true);
+    if (count >= NUDGE_FIRST && (count - NUDGE_FIRST) % NUDGE_EVERY === 0) $("nudge").hidden = false;
     const c = $("count").parentElement;
     c.classList.remove("pop");
     void c.offsetWidth;
@@ -152,6 +154,13 @@
 
   $("ping-view").addEventListener("click", () => { $("ping").hidden = true; showTab("mine"); });
   $("ping-mute").addEventListener("click", () => { setMuted(true); toast("Muted. You can unmute in My jokes."); });
+  $("nudge-close").addEventListener("click", () => ($("nudge").hidden = true));
+  $("nudge-add").addEventListener("click", () => {
+    $("nudge").hidden = true;
+    $("add").open = true;
+    $("add").scrollIntoView({ behavior: "smooth", block: "center" });
+    $("add-text").focus({ preventScroll: true });
+  });
   $("ping-close").addEventListener("click", () => ($("ping").hidden = true));
   $("mute-box").addEventListener("change", (e) => setMuted(e.target.checked));
   $("mute-box").checked = muted();
