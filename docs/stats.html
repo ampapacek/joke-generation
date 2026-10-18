@@ -12,7 +12,10 @@
     <a class="pill" href="index.html">← Rate jokes</a>
   </header>
   <main>
-    <p id="summary" class="summary">Loading…</p>
+    <div class="stats-bar">
+      <p id="summary" class="summary">Loading…</p>
+      <button id="csv" class="pill" hidden>⬇ Download CSV</button>
+    </div>
     <table>
       <thead>
         <tr><th>Joke</th><th class="num">Ratings</th><th class="num">Skips</th><th class="num">Avg</th></tr>
@@ -36,6 +39,20 @@
       rows.sort((a, b) =>
         (b.avg_score == null ? -1 : Number(b.avg_score)) - (a.avg_score == null ? -1 : Number(a.avg_score))
         || Number(b.n_ratings) - Number(a.n_ratings));
+      const csvButton = document.getElementById("csv");
+      csvButton.hidden = false;
+      csvButton.addEventListener("click", () => {
+        const esc = (v) => '"' + String(v ?? "").replace(/"/g, '""') + '"';
+        const lines = [["id", "joke", "n_ratings", "n_skips", "avg_score"].join(",")];
+        for (const r of rows) lines.push([r.id, esc(r.text), r.n_ratings, r.n_skips, r.avg_score ?? ""].join(","));
+        // BOM so Excel opens the UTF-8 file correctly
+        const blob = new Blob(["\ufeff" + lines.join("\n") + "\n"], { type: "text/csv;charset=utf-8" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "joke_ratings_" + new Date().toISOString().slice(0, 10) + ".csv";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
       const tbody = document.getElementById("rows");
       for (const r of rows) {
         const tr = document.createElement("tr");
